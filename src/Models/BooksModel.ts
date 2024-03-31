@@ -36,13 +36,15 @@ export class BookModel {
       const connection = await client.connect();
       const sql = `INSERT INTO Books ( 
         title,
-        ISBN,
+        isbn,
         shelf_location,
-        quantity) VALUES ($1,$2,$3,0) returning *`;
+      author,
+        quantity) VALUES ($1,$2,$3,$4,0) returning *`;
       const result = await connection.query(sql, [
         book.title,
         book.ISBN,
-        book.shelf_location
+        book.shelf_location,
+        book.author
       ]);
       connection.release();
       return result.rows[0];
@@ -56,6 +58,7 @@ export class BookModel {
       const sql = `DELETE FROM Books WHERE Book_id=($1)`;
       const result = await connection.query(sql, [id]);
       connection.release();
+
       return result.rows[0];
     } catch (error) {
       throw new Error(`cannot get Book ${error}`);
@@ -80,8 +83,8 @@ export class BookModel {
   async search(column: string, search_term: string): Promise<Book[]> {
     try {
       const connection = await client.connect();
-      const sql = `SELECT * FROM Books WHERE ${column} LIKE $1`;
-      const result = await connection.query(sql, [`%${search_term}%`]);
+      const sql = `SELECT * FROM Books WHERE ${column} = $1`;
+      const result = await connection.query(sql, [search_term]);
       connection.release();
       return result.rows;
     } catch (error) {

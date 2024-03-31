@@ -18,14 +18,12 @@ export class BorrowingRecordModel {
     try {
       const connection = await client.connect();
       const sql = `
-        INSERT INTO BorrowingRecords (book_id, borrower_id, checkout_date, due_date)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO BorrowingRecords (book_id, borrower_id )
+        VALUES ($1, $2  )
         RETURNING *`;
       const result = await connection.query(sql, [
         record.book_id,
-        record.borrower_id,
-        record.checkout_date,
-        record.due_date
+        record.borrower_id
       ]);
       connection.release();
       return result.rows[0];

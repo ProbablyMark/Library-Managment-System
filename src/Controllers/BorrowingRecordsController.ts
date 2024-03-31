@@ -11,9 +11,7 @@ export async function createBorrowingRecord(
   try {
     await borrowingRecord.create({
       book_id: req.body.book_id,
-      borrower_id: req.body.borrower_id,
-      checkout_date: new Date(), // Set the checkout date
-      due_date: req.body.due_date
+      borrower_id: req.body.borrower_id
     });
     res.json({ message: 'Borrowing record created' });
   } catch (error) {
@@ -27,10 +25,7 @@ export async function updateReturnedDate(
   next: NextFunction
 ) {
   try {
-    await borrowingRecord.updateReturnedDate(
-      +req.params.record_id,
-      new Date() // Set the returned date
-    );
+    await borrowingRecord.updateReturnedDate(+req.params.record_id, new Date());
     res.json({ message: 'Returned date updated' });
   } catch (error) {
     next(error);

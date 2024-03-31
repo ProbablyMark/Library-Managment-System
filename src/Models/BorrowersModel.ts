@@ -5,7 +5,7 @@ let sql: string = ``;
 
 //creating update query dynamically
 function creatQuery(cols: string[]) {
-  const query = ['UPDATE Borrowers'];
+  const query = ['UPDATE borrowers'];
   query.push('SET');
 
   const set: string[] = [];
@@ -14,7 +14,7 @@ function creatQuery(cols: string[]) {
   });
   query.push(set.join(', '));
 
-  query.push('WHERE Borrower_id = ($1) ');
+  query.push('WHERE borrower_id = ($1) ');
 
   sql = query.join(' ');
 }
@@ -23,7 +23,7 @@ export class BorrowerModel {
   async index(): Promise<Borrower[]> {
     try {
       const connection = await client.connect();
-      const sql = `SELECT * FROM Borrowers ORDER BY Borrower_id asc`;
+      const sql = `SELECT * FROM borrowers ORDER BY borrower_id asc`;
       const result = await connection.query(sql);
       connection.release();
       return result.rows;
@@ -35,17 +35,17 @@ export class BorrowerModel {
   async create(Borrower: Borrower): Promise<Borrower> {
     try {
       const connection = await client.connect();
-      const sql = `INSERT INTO Borrowers ( 
+      const sql = `INSERT INTO borrowers ( 
         name,
-        email,
-        phone,
-        ) VALUES ($1,$2,$3) returning *`;
+        email
+     
+        ) VALUES ($1,$2) returning *`;
       const result = await connection.query(sql, [
         Borrower.name,
-        Borrower.email,
-        Borrower.registered_date
+        Borrower.email
       ]);
       connection.release();
+
       return result.rows[0];
     } catch (error) {
       throw new Error(`cannot add Borrower  ${error}`);
@@ -54,7 +54,7 @@ export class BorrowerModel {
   async deleteBorrower(id: number): Promise<Borrower> {
     try {
       const connection = await client.connect();
-      const sql = `DELETE FROM Borrowers WHERE Borrower_id=($1)`;
+      const sql = `DELETE FROM borrowers WHERE borrower_id=($1)`;
       const result = await connection.query(sql, [id]);
       connection.release();
       return result.rows[0];
@@ -81,8 +81,8 @@ export class BorrowerModel {
   async search(column: string, search_term: string): Promise<Borrower[]> {
     try {
       const connection = await client.connect();
-      const sql = `SELECT * FROM Borrowers WHERE ${column} ILIKE $1`;
-      const result = await connection.query(sql, [`%${search_term}%`]);
+      const sql = `SELECT * FROM borrowers WHERE ${column} = $1`;
+      const result = await connection.query(sql, [search_term]);
       connection.release();
       return result.rows;
     } catch (error) {

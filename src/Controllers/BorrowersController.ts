@@ -11,8 +11,7 @@ export async function createBorrower(
   try {
     await borrower.create({
       name: req.body.name,
-      email: req.body.email,
-      registered_date: req.body.registered_date
+      email: req.body.email
     });
     res.json({ message: 'Borrower created' });
   } catch (error) {
@@ -26,7 +25,7 @@ export async function updateBorrower(
 ) {
   try {
     await borrower.updateBorrower(
-      +req.params.borrower_id,
+      req.body.borrower_id,
       req.body.cols,
       req.body.values
     );
@@ -49,7 +48,8 @@ export async function deleteBorrower(
   next: NextFunction
 ) {
   try {
-    res.json(await borrower.deleteBorrower(Number(req.params.borrower_id)));
+    await borrower.deleteBorrower(Number(req.params.borrower_id));
+    res.json('borrower deleted');
   } catch (error) {
     next(error);
   }

@@ -3,5 +3,6 @@ export type Book = {
   title: string;
   ISBN: number;
   shelf_location: string;
+  author: string;
   quantity?: number;
 };

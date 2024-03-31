@@ -14,6 +14,6 @@ BooksRouter.post('/books/newbook', createBook);
 BooksRouter.post('/books/search', searchBook);
 BooksRouter.get('/books/all', index);
 BooksRouter.delete('/books/:book_id', deleteBook);
-BooksRouter.patch('/books/:book_id', updateBook);
+BooksRouter.patch('/books/update', updateBook);
 
 export default BooksRouter;

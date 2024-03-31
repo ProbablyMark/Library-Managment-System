@@ -12,7 +12,8 @@ export async function createBook(
     await book.create({
       title: req.body.title,
       ISBN: req.body.isbn,
-      shelf_location: req.body.shelf_location
+      shelf_location: req.body.shelf_location,
+      author: req.body.author
     });
     res.json({ message: 'book created' });
   } catch (error) {
@@ -25,7 +26,7 @@ export async function updateBook(
   next: NextFunction
 ) {
   try {
-    await book.updateBook(+req.params.book_id, req.body.cols, req.body.values);
+    await book.updateBook(req.body.book_id, req.body.cols, req.body.values);
     res.json({ message: 'book updated' });
   } catch (error) {
     next(error);
@@ -45,7 +46,8 @@ export async function deleteBook(
   next: NextFunction
 ) {
   try {
-    res.json(await book.deleteBook(Number(req.params.book_id)));
+    await book.deleteBook(Number(req.params.book_id));
+    res.json('book deleted');
   } catch (error) {
     next(error);
   }
