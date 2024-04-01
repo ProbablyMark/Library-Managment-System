@@ -6,6 +6,7 @@ import http from 'http';
 import morgan from 'morgan';
 import BorrowersRouter from './Routers/BorrowersRouter';
 import BooksRouter from './Routers/BooksRouter';
+import BorrowingRecordsRouter from './Routers/BorrowingRecordsRouter';
 
 const app: express.Application = express();
 const address: string = 'localhost:3000';
@@ -34,6 +35,7 @@ http.createServer(app).listen(port, async () => {
 
 app.use(BooksRouter);
 app.use(BorrowersRouter);
+app.use(BorrowingRecordsRouter);
 
 //Not found MW
 app.use((req: Request, res: Response) => {

@@ -7,10 +7,11 @@ import {
   updateBorrower,
   searchBorrower
 } from '../Controllers/BorrowersController';
+import { rateLimiter } from '../Middlewares/rateLimiter';
 
 const BorrowersRouter = express.Router();
 
-BorrowersRouter.post('/borrowers/newborrower', createBorrower);
+BorrowersRouter.post('/borrowers/newborrower', rateLimiter, createBorrower);
 BorrowersRouter.post('/borrowers/search', searchBorrower);
 BorrowersRouter.get('/borrowers/all', index);
 BorrowersRouter.delete('/borrowers/:borrower_id', deleteBorrower);
