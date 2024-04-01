@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS public."books"
     book_id  serial NOT NULL,
     title character varying(225) COLLATE pg_catalog."default",  
       author character varying(225) COLLATE pg_catalog."default",
-    quantity integer DEFAULT 0,
+    quantity integer DEFAULT 1,
     shelf_location character varying(225) COLLATE pg_catalog."default",
     isbn integer DEFAULT 0,
     CONSTRAINT "books_pkey" PRIMARY KEY (book_id)
